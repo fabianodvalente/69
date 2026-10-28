@@ -86,10 +86,6 @@
             
             <!-- Quick Action Buttons -->
             <div class="flex items-center gap-3">
-                <button onclick="toggleModal('guide-modal')" class="px-4 py-2.5 rounded-xl glass-panel hover:bg-white/10 text-xs font-semibold text-gray-200 flex items-center gap-2 transition duration-200 border border-brand-gold/40">
-                    <i class="fa-solid fa-code text-brand-gold"></i>
-                    <span>Como Alimentar / Editar</span>
-                </button>
             </div>
         </div>
     </header>
@@ -200,9 +196,9 @@
         <!-- TAB CONTENT 4: CENOGRAFIA -->
         <section id="content-cenografia" class="tab-content hidden space-y-6">
             <div class="bg-gradient-to-r from-brand-card to-transparent p-6 rounded-2xl border-l-4 border-brand-green mb-6">
-                <h2 class="text-2xl font-serif font-bold text-white mb-1">Cenografia, Objetos & Texturas do Clímax</h2>
+                <h2 class="text-2xl font-serif font-bold text-white mb-1">Cenografia e objetos</h2>
                 <p class="text-gray-300 text-sm leading-relaxed max-w-4xl">
-                    Os elementos táticos e mitológicos da história: o cronômetro digital marcando os segundos (33", 38", 15"), as notas de 100 reais amassadas na borda da mesa, o taco antigo de RAVI assinado na madeira e a dupla encaçapada espetacular das bolas 6 e 9.
+                    A cenografia e os objetos de cena ajudarão a construir o universo do bar, brasileiro e popular, e a dar peso para as dinâmicas do jogo. As garrafas e os copos americanos no balcão trazem o realismo do dia a dia ao espaço, enquanto os itens dos personagens reforçam algumas questões: a camiseta estampada marca a marra do forasteiro, o dinheiro amassado tirado do bolso mostra a informalidade das apostas e o taco assinado destaca a lenda do bar.
                 </p>
             </div>
 
@@ -248,59 +244,7 @@
     </div>
 
     <!-- GUIDE MODAL (COMO ALIMENTAR) -->
-    <div id="guide-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="max-w-2xl w-full bg-brand-card rounded-2xl p-6 sm:p-8 border border-brand-gold/30 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-4">
-                <h3 class="text-xl font-serif font-bold text-brand-gold flex items-center gap-2">
-                    <i class="fa-solid fa-sliders"></i> Como Alimentar & Personalizar este Moodboard
-                </h3>
-                <button onclick="toggleModal('guide-modal')" class="text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-xmark text-xl"></i>
-                </button>
-            </div>
-
-            <div class="space-y-4 text-sm text-gray-300 leading-relaxed">
-                <p>Você pode atualizar as imagens e as músicas alterando diretamente os objetos no código JavaScript no final do arquivo HTML.</p>
-                
-                <div class="bg-black/50 p-4 rounded-xl border border-gray-800 space-y-2">
-                    <h4 class="font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-image text-brand-gold"></i> 1. Alterar as Imagens
-                    </h4>
-                    <p class="text-xs text-gray-400">No código, procure pela lista <code class="text-brand-accent">moodboardData</code>. Substitua as URLs das propriedades <code class="text-brand-accent">img</code> por links do <strong>FilmGrab</strong>, Pinterest ou Unsplash:</p>
-                    <pre class="bg-gray-900 p-2.5 rounded font-mono text-[11px] text-emerald-400 overflow-x-auto">img: "https://film-grab.com/sua-imagem.jpg"</pre>
-                </div>
-
-                <div class="bg-black/50 p-4 rounded-xl border border-gray-800 space-y-2">
-                    <h4 class="font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-music text-brand-gold"></i> 2. Colocar Suas Músicas (.MP3)
-                    </h4>
-                    <p class="text-xs text-gray-400">Na variável <code class="text-brand-accent">audioFiles</code>, coloque os links ou caminhos locais dos seus dois arquivos de áudio MP3:</p>
-                    <pre class="bg-gray-900 p-2.5 rounded font-mono text-[11px] text-emerald-400 overflow-x-auto">
-track1: "musica_duelo.mp3",
-track2: "musica_ravy.mp3"
-                    </pre>
-                    <p class="text-xs text-gray-400"><em>Aviso: Enquanto você não coloca seus arquivos MP3, a aplicação usa um sintetizador interno (Web Audio API) para você testar a transição sonora imediatamente!</em></p>
-                </div>
-
-                <div class="bg-black/50 p-4 rounded-xl border border-gray-800 space-y-2">
-                    <h4 class="font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-globe text-brand-gold"></i> 3. Como Publicar e Enviar para a Equipe?
-                    </h4>
-                    <ul class="list-disc list-inside text-xs text-gray-400 space-y-1">
-                        <li><strong>GitHub Pages / Vercel / Netlify:</strong> Basta criar uma conta gratuita, arrastar esse arquivo <code class="text-white">index.html</code> e suas fotos/músicas para a pasta. Você receberá um link público instantâneo!</li>
-                        <li><strong>Google Drive / Dropbox:</strong> Você também pode enviar a pasta compactada com as fotos e abrir direto no navegador.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="pt-4 border-t border-gray-700 text-right">
-                <button onclick="toggleModal('guide-modal')" class="px-6 py-2 rounded-xl bg-brand-gold text-black font-bold hover:bg-amber-400 transition">
-                    Entendi! Vamos ver o Moodboard
-                </button>
-            </div>
-        </div>
-    </div>
-
+    
     <!-- JAVASCRIPT LOGIC -->
     <script>
         /* ==========================================================================
@@ -433,6 +377,14 @@ track2: "musica_ravy.mp3"
                 ref: 'Marty Supreme (2025)',
                 img: 'https://i.ibb.co/r21DZfXr/marty-supreme.jpg',
                 desc: 'Referência para o tratamento do dinheiro de cena: notas amassadas e tiradas direto do bolso, que trazem o peso do jogo de aposta informal do bar, ao invés de um maço de notas organizado.'
+            },
+            {
+                id: 16,
+                category: 'cenografia',
+                title: 'O taco especial',
+                ref: 'The Color of Money (1986)',
+                img: 'https://forums.azbilliards.com/attachments/n7-in-the-movie-jpg.230208/',
+                desc: 'Close no detalhe do taco para destacar que não é um taco qualquer de balcão. A ideia é mostrar um objeto próprio, bem cuidado e com valor pessoal, diferenciando-o pela assinatura da lenda do bar.'
             }
 
         ];
