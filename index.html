@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodboard 69</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            gold: '#E5A93C',
+                            red: '#E63946',
+                            green: '#2A9D8F',
+                            dark: '#0B0C10',
+                            card: '#1F2833',
+                            accent: '#66FCF1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0C10;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2833;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E5A93C;
+        }
+        .glass-panel {
+            background: rgba(31, 40, 51, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glow-gold:hover {
+            box-shadow: 0 0 20px rgba(229, 169, 60, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-200 font-sans min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-black">
+
+    <!-- HEADER & TITLE -->
+    <header class="relative w-full pt-12 pb-6 px-4 sm:px-8 max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-end justify-between border-b border-gray-800 pb-6 gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-brand-gold/10 text-brand-gold border border-brand-gold/30 uppercase tracking-widest">
+                        Moodboard
+                    </span>
+                    <span class="text-xs text-gray-400 font-mono"><i class="fa-regular fa-clock mr-1"></i> Direção: Alice Moure e Catarina Barroso</span>
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-serif font-extrabold text-white tracking-tight">
+                    Filme: <span class="text-brand-gold italic text-3xl sm:text-5xl font-light">"69" (título provisório)</span>
+                </h1>
+                <p class="text-gray-400 max-w-2xl mt-2 text-sm sm:text-base leading-relaxed">
+                    Moodboard interativo do curta-metragem, que será realizado como parte da avaliação da disciplina de Ateliê do Audiovisual I, ministrada pela professora Mariana Dias Miranda, no curso de Cinema e Audiovisual da Universidade Federal do Espírito Santo. Sinopse: A chegada de um forasteiro estremece a dinâmica de um bar, moldada por um peculiar jogo de sinuca. Quando a lenda local é colocada em cheque, uma heroína decide arriscar tudo para defender a honra da comunidade.
+                </p>
+            </div>
+            
+            <!-- Quick Action Buttons -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleModal('guide-modal')" class="px-4 py-2.5 rounded-xl glass-panel hover:bg-white/10 text-xs font-semibold text-gray-200 flex items-center gap-2 transition duration-200 border border-brand-gold/40">
+                    <i class="fa-solid fa-code text-brand-gold"></i>
+                    <span>Como Alimentar / Editar</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- FIXED AUDIO PLAYER BAR -->
+    <div class="sticky top-4 z-40 px-4 sm:px-8 max-w-7xl mx-auto w-full my-2">
+        <div class="glass-panel rounded-2xl p-4 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-brand-gold/20">
+            <!-- Track Info & Controls -->
+            <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-start">
+                <button id="play-btn" onclick="toggleAudio()" class="w-12 h-12 rounded-full bg-brand-gold text-black flex items-center justify-center text-lg hover:scale-105 active:scale-95 transition shadow-lg shadow-brand-gold/20 flex-shrink-0">
+                    <i id="play-icon" class="fa-solid fa-play ml-0.5"></i>
+                </button>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span id="track-badge" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <h4 id="track-title" class="font-bold text-sm text-white">Referência musical 1: Faroeste Urbano</h4>
+                    </div>
+                    <p id="track-desc" class="text-xs text-gray-400 mt-0.5 font-mono">Música: Saci - Banditismo (trilha sonora de Ajude os Menor, de Janderson Felipe e Lucas Litrento)</p>
+                </div>
+            </div>
+
+            <!-- Track Switcher & Volume -->
+            <div class="flex items-center gap-6 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 border-gray-800 pt-3 sm:pt-0">
+                <!-- Manual Track Switch -->
+                <div class="flex bg-black/40 p-1 rounded-xl border border-gray-800 text-xs font-medium">
+                    <button id="btn-track-1" onclick="switchTrack(1)" class="px-3 py-1.5 rounded-lg text-brand-gold font-semibold bg-brand-card transition">
+                        <i class="fa-solid fa-fire-flame-curved mr-1"></i> O Bar
+                    </button>
+                    <button id="btn-track-2" onclick="switchTrack(2)" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition">
+                        <i class="fa-solid fa-crown mr-1"></i> O Forasteiro
+                    </button>
+                </div>
+
+                <!-- Volume Slider -->
+                <div class="flex items-center gap-2 text-gray-400">
+                    <i id="volume-icon" class="fa-solid fa-volume-high text-xs"></i>
+                    <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.7" oninput="setVolume(this.value)" class="w-20 accent-brand-gold cursor-pointer h-1.5 bg-gray-700 rounded-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT & TABS -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-8 py-8 w-full flex-grow">
+        
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar border-b border-gray-800/80">
+            <button onclick="switchTab('decoupage', 1)" id="tab-decoupage" class="tab-btn active px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 bg-brand-gold text-black shadow-lg">
+                <i class="fa-solid fa-video"></i>
+                <span>1. Planos e estética</span>
+            </button>
+            <button onclick="switchTab('cores', 1)" id="tab-cores" class="tab-btn px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-gray-400 hover:text-white hover:bg-brand-card">
+                <i class="fa-solid fa-palette"></i>
+                <span>2. Cores</span>
+            </button>
+            <button onclick="switchTab('personagens', 2)" id="tab-personagens" class="tab-btn px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-gray-400 hover:text-white hover:bg-brand-card">
+                <i class="fa-solid fa-user-ninja"></i>
+                <span>3. Personagens</span>
+            </button>
+            <button onclick="switchTab('cenografia', 2)" id="tab-cenografia" class="tab-btn px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-gray-400 hover:text-white hover:bg-brand-card">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>4. Cenografia e objetos</span>
+            </button>
+        </div>
+
+        <!-- TAB CONTENT 1: DECUPAGEM & CAMERA -->
+        <section id="content-decoupage" class="tab-content block space-y-6">
+            <div class="bg-gradient-to-r from-brand-card to-transparent p-6 rounded-2xl border-l-4 border-brand-gold mb-6">
+                <h2 class="text-2xl font-serif font-bold text-white mb-1">Planos e estética geral</h2>
+                <p class="text-gray-300 text-sm leading-relaxed max-w-4xl">
+                    Principais referências: <strong class="text-brand-gold">The Color of Money (dir. Martin Scorsese, 1986)</strong> e o gênero <strong class="text-brand-gold">Faroeste Espaguete</strong>. Do primeiro, extrairemos boa parte da linguagem de câmera no que diz respeito ao jogo de sinuca: planos rasteiros no nível do feltro da mesa, movimentos em chicote e zooms rápidos para transmitir a velocidade do jogo, por exemplo. Dos filmes Western, traremos a capacidade de criar tensão para os momentos de duelo através de foco nos olhares e na iminência do embate. Pretendemos, ainda, promover uma atualização urbana e popular desse universo, na linha de Ajude os Menor (dir. Janderson Felipe e Lucas Litrento, 2025).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-decoupage">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+        <!-- TAB CONTENT 2: CORES & GRAFITE -->
+        <section id="content-cores" class="tab-content hidden space-y-6">
+            <div class="bg-gradient-to-r from-brand-card to-transparent p-6 rounded-2xl border-l-4 border-brand-red mb-6">
+                <h2 class="text-2xl font-serif font-bold text-white mb-1">Paleta de cores e referências</h2>
+                <p class="text-gray-300 text-sm leading-relaxed max-w-4xl">
+                    No que diz respeito às cores, a ideia é fugir do visual escuro tradicional de bares de sinuca e usar uma paleta mais viva, de bar diurno. O verde da mesa marcará o espaço do jogo, enquanto os tons terrosos e o contraste do fundo constroem o ambiente e destacam os personagens. Na narrativa, essa combinação tem o objetivo de guiar o olhar do espectador para o que importa em cada cena: o contraste concentra a tensão do duelo na mesa, enquanto as variações de cor nos figurinos e no entorno sinalizam as dinâmicas de poder e a postura de cada jogador ao longo da disputa.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-cores">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+        <!-- TAB CONTENT 3: PERSONAGENS -->
+        <section id="content-personagens" class="tab-content hidden space-y-6">
+            <div class="bg-gradient-to-r from-brand-card to-transparent p-6 rounded-2xl border-l-4 border-brand-accent mb-6">
+                <h2 class="text-2xl font-serif font-bold text-white mb-1">Personagens</h2>
+                <p class="text-gray-300 text-sm leading-relaxed max-w-4xl">
+                    O triângulo de forças do bar: O Forasteiro (provisoriamente chamado de Vitor), O Homem (o frequentador do bar ansioso que joga sob pressão) e A Mulher / RAVY (serena, precisa, que transiciona da mesa de palavras cruzadas para o jogo para proteger a honra do bar).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-personagens">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+        <!-- TAB CONTENT 4: CENOGRAFIA -->
+        <section id="content-cenografia" class="tab-content hidden space-y-6">
+            <div class="bg-gradient-to-r from-brand-card to-transparent p-6 rounded-2xl border-l-4 border-brand-green mb-6">
+                <h2 class="text-2xl font-serif font-bold text-white mb-1">Cenografia, Objetos & Texturas do Clímax</h2>
+                <p class="text-gray-300 text-sm leading-relaxed max-w-4xl">
+                    Os elementos táticos e mitológicos da história: o cronômetro digital marcando os segundos (33", 38", 15"), as notas de 100 reais amassadas na borda da mesa, o taco antigo de RAVI assinado na madeira e a dupla encaçapada espetacular das bolas 6 e 9.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-cenografia">
+                <!-- Cards injected via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800 py-6 text-center text-xs text-gray-500 font-mono">
+        <p>Moodboard Interativo para o Curta-Metragem <span class="text-brand-gold font-bold">"69"</span> • Projeto em Desenvolvimento</p>
+    </footer>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300">
+        <div class="relative max-w-5xl w-full bg-brand-card rounded-2xl overflow-hidden shadow-2xl border border-gray-700 flex flex-col md:flex-row max-h-[90vh]">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/60 text-white hover:bg-brand-red flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="md:w-2/3 bg-black flex items-center justify-center overflow-hidden min-h-[300px]">
+                <img id="modal-img" src="" alt="" class="max-h-[75vh] w-auto object-contain">
+            </div>
+            <div class="md:w-1/3 p-6 flex flex-col justify-between overflow-y-auto">
+                <div>
+                    <span id="modal-category" class="text-xs font-mono px-2.5 py-1 rounded-full bg-brand-gold/10 text-brand-gold border border-brand-gold/30 uppercase">
+                        Categoria
+                    </span>
+                    <h3 id="modal-title" class="text-2xl font-serif font-bold text-white mt-3"></h3>
+                    <p id="modal-ref" class="text-xs text-brand-accent font-mono mt-1 mb-4"><i class="fa-solid fa-film mr-1"></i> <span></span></p>
+                    <div class="border-t border-gray-700/60 pt-4">
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 font-mono">Fotografia de referência / Nota da Equipe</h4>
+                        <p id="modal-desc" class="text-sm text-gray-300 leading-relaxed"></p>
+                    </div>
+                </div>
+                <div class="pt-6 border-t border-gray-700/60 mt-6 flex justify-between items-center text-xs text-gray-500">
+                    <span>Curta 69 (título provisório)</span>
+                    <span class="font-mono text-brand-gold">Pressione ESC para fechar</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GUIDE MODAL (COMO ALIMENTAR) -->
+    <div id="guide-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="max-w-2xl w-full bg-brand-card rounded-2xl p-6 sm:p-8 border border-brand-gold/30 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4">
+                <h3 class="text-xl font-serif font-bold text-brand-gold flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> Como Alimentar & Personalizar este Moodboard
+                </h3>
+                <button onclick="toggleModal('guide-modal')" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-sm text-gray-300 leading-relaxed">
+                <p>Você pode atualizar as imagens e as músicas alterando diretamente os objetos no código JavaScript no final do arquivo HTML.</p>
+                
+                <div class="bg-black/50 p-4 rounded-xl border border-gray-800 space-y-2">
+                    <h4 class="font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-image text-brand-gold"></i> 1. Alterar as Imagens
+                    </h4>
+                    <p class="text-xs text-gray-400">No código, procure pela lista <code class="text-brand-accent">moodboardData</code>. Substitua as URLs das propriedades <code class="text-brand-accent">img</code> por links do <strong>FilmGrab</strong>, Pinterest ou Unsplash:</p>
+                    <pre class="bg-gray-900 p-2.5 rounded font-mono text-[11px] text-emerald-400 overflow-x-auto">img: "https://film-grab.com/sua-imagem.jpg"</pre>
+                </div>
+
+                <div class="bg-black/50 p-4 rounded-xl border border-gray-800 space-y-2">
+                    <h4 class="font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-music text-brand-gold"></i> 2. Colocar Suas Músicas (.MP3)
+                    </h4>
+                    <p class="text-xs text-gray-400">Na variável <code class="text-brand-accent">audioFiles</code>, coloque os links ou caminhos locais dos seus dois arquivos de áudio MP3:</p>
+                    <pre class="bg-gray-900 p-2.5 rounded font-mono text-[11px] text-emerald-400 overflow-x-auto">
+track1: "musica_duelo.mp3",
+track2: "musica_ravy.mp3"
+                    </pre>
+                    <p class="text-xs text-gray-400"><em>Aviso: Enquanto você não coloca seus arquivos MP3, a aplicação usa um sintetizador interno (Web Audio API) para você testar a transição sonora imediatamente!</em></p>
+                </div>
+
+                <div class="bg-black/50 p-4 rounded-xl border border-gray-800 space-y-2">
+                    <h4 class="font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-brand-gold"></i> 3. Como Publicar e Enviar para a Equipe?
+                    </h4>
+                    <ul class="list-disc list-inside text-xs text-gray-400 space-y-1">
+                        <li><strong>GitHub Pages / Vercel / Netlify:</strong> Basta criar uma conta gratuita, arrastar esse arquivo <code class="text-white">index.html</code> e suas fotos/músicas para a pasta. Você receberá um link público instantâneo!</li>
+                        <li><strong>Google Drive / Dropbox:</strong> Você também pode enviar a pasta compactada com as fotos e abrir direto no navegador.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-gray-700 text-right">
+                <button onclick="toggleModal('guide-modal')" class="px-6 py-2 rounded-xl bg-brand-gold text-black font-bold hover:bg-amber-400 transition">
+                    Entendi! Vamos ver o Moodboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================================================
+           1. DATA STRUCTURE (MOODBOARD REFERENCES)
+           ========================================================================== */
+        const moodboardData = [
+            // EIXO 1: ESTÉTICA
+            {
+                id: 1,
+                category: 'decoupage',
+                title: 'O jogo de sinuca',
+                ref: 'The Color of Money (1986)',
+                img: 'https://film-grab.com/wp-content/uploads/photo-gallery/27%20(261).jpg',
+                desc: 'Plano detalhe bem próximo para destacar a materialidade e a precisão da tacada no momento do impacto. O giz se soltando do taco. O som seco da tacada. A física do jogo em evidência.'
+            },
+            {
+                id: 2,
+                category: 'decoupage',
+                title: 'Plano americano',
+                ref: 'Ajude os Menor (2025)',
+                img: 'https://i.ibb.co/W4cyLQGw/ajude-os-menor.png',
+                desc: 'Plano americano centralizado para impor a presença do personagem e marcar sua postura de confronto, reforçando a estética de duelo do faroeste.'
+            },
+            {
+                id: 3,
+                category: 'decoupage',
+                title: 'O taco como arma',
+                ref: 'The Color of Money (1986)',
+                img: 'https://film-grab.com/wp-content/uploads/photo-gallery/12%20(261).jpg',
+                desc: 'Plano detalhe fechado na empunhadura do taco, destacando a firmeza da mão que o segura para tratar o instrumento de jogo como uma arma de duelo.'
+            },
+            {
+                id: 4,
+                category: 'decoupage',
+                title: 'Plano detalhe nos olhos',
+                ref: 'A Fistfull of Dollars (1964)',
+                img: 'https://film-grab.com/wp-content/uploads/photo-gallery/63%20(294).jpg',
+                desc: 'O enquadramento se aproxima do olho franzido dos jogadores antes de disparar a tacada. A ideia é reforçar a tensão psicológica no estilo dos duelos de faroeste.'
+            },
+            {
+                id: 5,
+                category: 'decoupage',
+                title: 'Cards de título',
+                ref: 'Snatch (2000)',
+                img: 'https://www.artofthetitle.com/assets/sm/upload/gv/ki/an/zl/snatch_c.jpg',
+                desc: 'Pretendemos utilizar os cards de personagens, popular em filmes de faroeste, para apresentar os personagens e seus respectivos atores e atrizes nos créditos finais, reforçando homenagem ao gênero. Na imagem, utilizamos como exemplo os cards de personagens do filme Snatch (2000) que, apesar de não ser um filme de faroeste, também referencia o gênero em diversos momentos.'
+            },
+            {
+                id: 6,
+                category: 'decoupage',
+                title: 'Câmera no nível da mesa',
+                ref: 'The Hustler (1961)',
+                img: 'https://i.ibb.co/pByQHRMw/the-hustler.jpg',
+                desc: 'Plano baixo, rente ao feltro, colocando o espectador dentro do jogo. A intenção é acompanhar a mira e a trajetória da bola, enquanto o fundo levemente desfocado mostra a plateia do bar atenta a cada movimento.'
+            },
+
+            // EIXO 2: CORES & GRAFITE
+            {
+                id: 7,
+                category: 'cores',
+                title: 'Paleta de cores planejada',
+                ref: 'Adobe Color',
+                img: 'https://i.ibb.co/nMGTRD1x/paleta.png',
+                desc: 'O verde e suas variações estão no centro do universo da sinuca, marcando o pano da mesa. Os tons terrosos trazem a textura do bar (como a madeira e a luz de uma tarde quente refletindo na pele dos frequentadores), enquanto o azul marinho gera contraste para destacar os personagens do fundo. A paleta carrega dois detalhes conceituais: o verde principal traz no código hexadecimal #006900 uma referência direta ao nome da modalidade jogada, e a estrutura do esquema de cores forma uma tríade no círculo cromático, desenhando o triângulo usado na arrumação inicial das bolas.'
+            },
+            {
+                id: 8,
+                category: 'cores',
+                title: 'Apropriação do espaço',
+                ref: 'Some Kind of Heaven (2020)',
+                img: 'https://i.ibb.co/k6PCx6L9/small-K53-SHQI1.jpg',
+                desc: 'O uso das cores pode ajudar na tomada do território da sinuca, tradicionalmente masculino, por um espaço mais plural, de pertencimento e protagonismo feminino e LGBTQIA+'
+            },
+            {
+                id: 9,
+                category: 'cores',
+                title: 'Contraste no balcão',
+                ref: 'Paris, Texas (1984)',
+                img: 'https://i.ibb.co/4nKzPMpM/paris-texas-2.jpg',
+                desc: 'Referência de como usar cores fortes para destacar as pessoas no ambiente. O verde do teto contrasta direto com o rosa do figurino, deixando os personagens bem marcados no cenário, assim como pretendemos fazer em relação à mesa de sinuca.'
+            },
+            
+            // EIXO 3: PERSONAGENS
+            {
+                id: 10,
+                category: 'personagens',
+                title: 'O Forasteiro (Vitor)',
+                ref: 'The Color of Money (1986)',
+                img: 'https://i.ibb.co/tTVm1wvV/tom-cruise-in-the-color-of-money-1986-album.jpg',
+                desc: 'Postura arrogante, olhar frio e calculista. Roupas com tom ligeiramente destoante do bar (frio/monocromático) para mostrar que ele é o elemento invasor.'
+            },
+            {
+                id: 11,
+                category: 'personagens',
+                title: 'O Homem',
+                ref: 'A Grande Família (2001-2014)',
+                img: 'https://i.ibb.co/DPN2Rh2B/agostinho.jpg',
+                desc: 'Referência de postura e expressão facial para o Homem: a tensão do jogador comum que tenta passar confiança, mas entrega o nervosismo no olhar arregalado e na rigidez do corpo ao mirar a tacada.'
+            },
+            {
+                id: 12,
+                category: 'personagens',
+                title: 'A Mulher / RAVY (Calmaria & Precisão)',
+                ref: 'Drive (2011)',
+                img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+                desc: 'Serena, discreta no canto com suas palavras cruzadas. Quando assume o taco, seu olhar torna-se cirúrgico: 15 segundos são suficientes.'
+            },
+
+            // EIXO 4: CENOGRAFIA
+            {
+                id: 13,
+                category: 'cenografia',
+                title: 'A camiseta icônica',
+                ref: 'Poolhall Junkies (2002) e The Color of Money (1986)',
+                img: 'https://i.ibb.co/jZJx9dfw/poolhall-junkies.png',
+                desc: 'Aqui, pretendemos fazer uma referência direta à camiseta usada por Vince, personagem de The Color of Money (1986), já referenciada em Poolhall Junkies (2002). A ideia é estampá-la com o nome VITOR, usando a peça como um elemento de deboche e autoafirmação que marca a arrogância do personagem assim que ela é mostrada.'
+            },
+            {
+                id: 14,
+                category: 'cenografia',
+                title: 'Ambientação e objetos do bar',
+                ref: 'Inferninho (2018)',
+                img: 'https://i.ibb.co/q3C3hhnV/inferninho.png',
+                desc: 'Referência de cenografia para reforçar a identidade do bar popular brasileiro. A garrafa de cerveja de garrafa na mesa e o copo americano em primeiro plano ajudam a construir o ambiente.'
+            },
+            {
+                id: 15,
+                category: 'cenografia',
+                title: 'Dinheiro das apostas',
+                ref: 'Marty Supreme (2025)',
+                img: 'https://i.ibb.co/r21DZfXr/marty-supreme.jpg',
+                desc: 'Referência para o tratamento do dinheiro de cena: notas amassadas e tiradas direto do bolso, que trazem o peso do jogo de aposta informal do bar, ao invés de um maço de notas organizado.'
+            }
+
+        ];
+
+        /* ==========================================================================
+           2. AUDIO SYSTEM & SYNTHESIZER FALLBACK
+           ========================================================================== */
+        // Se você tiver arquivos de áudio locais, coloque os caminhos aqui:
+        const customAudioFiles = {
+            track1: "https://significant-amethyst-1qxpsxgz.edgeone.dev/", // ex: "audios/duelo_tensao.mp3"
+            track2: "https://helpful-harlequin-jdct0tna.edgeone.dev/"  // ex: "audios/revelacao_ravy.mp3"
+        };
+
+        let currentTrack = 1;
+        let isPlaying = false;
+        let audioVolume = 0.7;
+        let audioCtx = null;
+        let synthInterval = null;
+        let htmlAudio = null;
+
+        // Visual track descriptors
+        const trackDetails = {
+            1: { title: "Referência musical 1: Faroeste Urbano", desc: "Música: Saci - Banditismo (trilha sonora de Ajude os Menor, de Janderson Felipe e Lucas Litrento)" },
+            2: { title: "Referência musical 2: Sertanejo Universitário", desc: "Música: Munhoz e Mariano - Camaro Amarelo" }
+        };
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Web Audio Synth Fallback (Simula som ambiente se não houver MP3)
+        function playSynthTrack(trackNum) {
+            stopSynth();
+            if (!isPlaying) return;
+
+            initAudioContext();
+            
+            let tempo = trackNum === 1 ? 250 : 500; // BPM
+            let step = 0;
+
+            synthInterval = setInterval(() => {
+                if (!isPlaying || !audioCtx) return;
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (trackNum === 1) {
+                    // Ritmo de Tensão / Relógio (Tique-taque sintetizado)
+                    osc.type = step % 2 === 0 ? 'sine' : 'triangle';
+                    osc.frequency.setValueAtTime(step % 2 === 0 ? 320 : 220, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(audioVolume * 0.15, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+                } else {
+                    // Tom Épico / Ravy (Acordes suaves em síntese)
+                    const freqs = [220, 277.18, 329.63, 440]; // Lá maior
+                    let f = freqs[step % freqs.length];
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(audioVolume * 0.12, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.45);
+                }
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.48);
+                step++;
+            }, tempo);
+        }
+
+        function stopSynth() {
+            if (synthInterval) {
+                clearInterval(synthInterval);
+                synthInterval = null;
+            }
+        }
+
+        function toggleAudio() {
+            isPlaying = !isPlaying;
+            const playIcon = document.getElementById('play-icon');
+            const badge = document.getElementById('track-badge');
+
+            if (isPlaying) {
+                playIcon.className = 'fa-solid fa-pause';
+                badge.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+                
+                if (customAudioFiles[`track${currentTrack}`]) {
+                    if (!htmlAudio) {
+                        htmlAudio = new Audio(customAudioFiles[`track${currentTrack}`]);
+                        htmlAudio.loop = true;
+                    }
+                    htmlAudio.volume = audioVolume;
+                    htmlAudio.play();
+                } else {
+                    playSynthTrack(currentTrack);
+                }
+            } else {
+                playIcon.className = 'fa-solid fa-play ml-0.5';
+                badge.className = 'w-2 h-2 rounded-full bg-amber-500';
+                stopSynth();
+                if (htmlAudio) htmlAudio.pause();
+            }
+        }
+
+        function switchTrack(trackNum) {
+            if (currentTrack === trackNum && isPlaying) return;
+
+            currentTrack = trackNum;
+            
+            // Update UI elements
+            document.getElementById('track-title').innerText = trackDetails[trackNum].title;
+            document.getElementById('track-desc').innerText = trackDetails[trackNum].desc;
+
+            const b1 = document.getElementById('btn-track-1');
+            const b2 = document.getElementById('btn-track-2');
+
+            if (trackNum === 1) {
+                b1.className = 'px-3 py-1.5 rounded-lg text-brand-gold font-semibold bg-brand-card transition';
+                b2.className = 'px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition';
+            } else {
+                b2.className = 'px-3 py-1.5 rounded-lg text-brand-gold font-semibold bg-brand-card transition';
+                b1.className = 'px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition';
+            }
+
+            if (isPlaying) {
+                // Crossfade simulation
+                if (customAudioFiles.track1 && customAudioFiles.track2) {
+                    if (htmlAudio) htmlAudio.pause();
+                    htmlAudio = new Audio(customAudioFiles[`track${trackNum}`]);
+                    htmlAudio.loop = true;
+                    htmlAudio.volume = audioVolume;
+                    htmlAudio.play();
+                } else {
+                    playSynthTrack(trackNum);
+                }
+            }
+        }
+
+        function setVolume(val) {
+            audioVolume = parseFloat(val);
+            if (htmlAudio) htmlAudio.volume = audioVolume;
+            
+            const volIcon = document.getElementById('volume-icon');
+            if (audioVolume === 0) {
+                volIcon.className = 'fa-solid fa-volume-xmark text-xs text-red-400';
+            } else if (audioVolume < 0.5) {
+                volIcon.className = 'fa-solid fa-volume-low text-xs';
+            } else {
+                volIcon.className = 'fa-solid fa-volume-high text-xs';
+            }
+        }
+
+        /* ==========================================================================
+           3. GALLERY RENDER & TABS NAVIGATION
+           ========================================================================== */
+        function renderGalleries() {
+            const categories = ['decoupage', 'cores', 'personagens', 'cenografia'];
+            
+            categories.forEach(cat => {
+                const container = document.getElementById(`gallery-${cat}`);
+                if (!container) return;
+
+                const items = moodboardData.filter(item => item.category === cat);
+                container.innerHTML = items.map(item => `
+                    <div onclick="openLightbox(${item.id})" class="group bg-brand-card rounded-2xl overflow-hidden border border-gray-800 hover:border-brand-gold/50 transition-all duration-300 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between shadow-xl glow-gold">
+                        <div>
+                            <div class="relative aspect-video overflow-hidden bg-black">
+                                <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100" loading="lazy">
+                                <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-mono text-brand-gold border border-brand-gold/30">
+                                    <i class="fa-solid fa-film mr-1"></i> ${item.ref}
+                                </div>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="font-bold text-base text-white group-hover:text-brand-gold transition">${item.title}</h3>
+                                <p class="text-xs text-gray-400 mt-2 line-clamp-2 leading-relaxed">${item.desc}</p>
+                            </div>
+                        </div>
+                        <div class="px-5 pb-4 pt-0 flex justify-between items-center text-[11px] font-mono text-gray-500 border-t border-gray-800/50 mt-2">
+                            <span>Expandir Detalhes</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-brand-gold group-hover:translate-x-0.5 transition"></i>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        function switchTab(tabKey, targetTrack) {
+            // Update Tab Buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 text-gray-400 hover:text-white hover:bg-brand-card';
+            });
+
+            const activeBtn = document.getElementById(`tab-${tabKey}`);
+            if (activeBtn) {
+                activeBtn.className = 'tab-btn active px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition flex items-center gap-2 bg-brand-gold text-black shadow-lg';
+            }
+
+            // Hide/Show Content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            const targetContent = document.getElementById(`content-${tabKey}`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+
+            // Automatically switch audio mood based on section
+            if (targetTrack && targetTrack !== currentTrack) {
+                switchTrack(targetTrack);
+            }
+        }
+
+        /* ==========================================================================
+           4. LIGHTBOX & MODAL LOGIC
+           ========================================================================== */
+        function openLightbox(id) {
+            const item = moodboardData.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('modal-img').src = item.img;
+            document.getElementById('modal-title').innerText = item.title;
+            document.getElementById('modal-ref').querySelector('span').innerText = item.ref;
+            document.getElementById('modal-desc').innerText = item.desc;
+            document.getElementById('modal-category').innerText = item.category.toUpperCase();
+
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            }
+        }
+
+        // Keyboard navigation (ESC to close lightbox)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                document.getElementById('guide-modal').classList.add('hidden');
+            }
+        });
+
+        // Initialize on load
+        window.onload = function() {
+            renderGalleries();
+        };
+    </script>
+</body>
+</html>
